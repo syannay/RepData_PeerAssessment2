@@ -11,7 +11,7 @@ library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Reproducible Research - Project1
+# Reproducible Research - Project2
 
 ## Across the United States, which types of events (as indicated in the \color{red}{\verb|EVTYPE|}EVTYPE variable) are most harmful with respect to population health?
 
