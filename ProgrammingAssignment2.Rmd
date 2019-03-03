@@ -71,11 +71,31 @@ getE <- function(char) {
         return(as.numeric(char))
     else return(0)
 }
-## Damaged caused tp property
-dmg_prop <- sub_data$PROPDMG * 10**getE(sub_data$PROPDMGEXP)
+## Damaged caused to property
+sub_data$dmg_prop <- sub_data$PROPDMG * 10**getE(sub_data$PROPDMGEXP)
+
+agg_mdg_prop <- aggregate(sub_data$dmg_prop,by=list(sub_data$EVTYPE), sum)
+
+agg_dmg_prop_ord <- agg_mdg_prop[order(agg_mdg_prop$x, decreasing = T), ]
+
+head_mdg_prop <- head(agg_dmg_prop_ord)
+names(head_mdg_prop) <- c("Event", "PropertyDamage")
+head_mdg_prop
+
+p1 <- ggplot(data=head_mdg_prop, mapping=aes(x=head_mdg_prop$Event, y=head_mdg_prop$PropertyDamage))+geom_bar(stat="identity")
 
 ## Damage caused to crop
-dmg_crop <- sub_data$CROPDMG * 10**getE(sub_data$CROPDMGEXP)
+sub_data$dmg_crop <- sub_data$CROPDMG * 10**getE(sub_data$CROPDMGEXP)
+
+agg_mdg_crop <- aggregate(sub_data$dmg_crop,by=list(sub_data$EVTYPE), sum)
+
+agg_dmg_crop_ord <- agg_mdg_crop[order(agg_mdg_crop$x, decreasing = T), ]
+
+head_mdg_crop <- head(agg_dmg_crop_ord)
+names(head_mdg_crop) <- c("Event", "CropDamage")
+head_mdg_crop
+
+p1 <- ggplot(data=head_mdg_crop, mapping=aes(x=head_mdg_crop$Event, y=head_mdg_crop$CropDamage))+geom_bar(stat="identity")
 
 ## Add data to calculate damage caused to Property and Crop
 sub_data$economyDMG <- dmg_prop + dmg_crop
@@ -84,7 +104,10 @@ agg_eco <- aggregate(sub_data$economyDMG,by=list(sub_data$EVTYPE), sum)
 ## order by damage
 agg_eco_ord <- agg_eco[order(agg_eco$x, decreasing = T), ]
 ## Head of ordered by damage costs
-head(agg_eco_ord)
-```
+head_eco_ord <- head(agg_eco_ord)
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+names(head_eco_ord) <- c("Event", "TotalEconomyDamage")
+head_eco_ord
+
+p1 <- ggplot(data=head_eco_ord, mapping=aes(x=head_eco_ord$Event, y=head_eco_ord$TotalEconomyDamage))+geom_bar(stat="identity")
+```
