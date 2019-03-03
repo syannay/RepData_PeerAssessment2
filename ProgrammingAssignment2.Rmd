@@ -1,5 +1,5 @@
 ---
-title: "RepDatap2"
+title: "RepDataProject2"
 author: "Shimon Yannay"
 date: "2019 M02 28"
 output: html_document
@@ -43,14 +43,14 @@ head_fatal <- head(agg_fat_ord)
 names(head_fatal) <- c("Event", "Fatalities")
 head_fatal
 
-p1 <- ggplot(data=head_fatal, mapping=aes(x=head_fatal$Event, y=head_fatal$Fatalities))+geom_bar(stat="identity")
+p1 <- ggplot(data=head_fatal, mapping=aes(x=head_fatal$Event, y=head_fatal$Fatalities))+geom_bar(stat="identity")+xlab("Event")+ylab("Fatalities")
 print(p1)
 
 ## Head of ordered by injuries
 head_injury <- head(agg_inj_ord)
 names(head_injury) <- c("Event", "Injuries")
 head_injury
-p1 <- ggplot(data=head_injury, mapping=aes(x=head_injury$Event, y=head_injury$Injuries))+geom_bar(stat="identity")
+p1 <- ggplot(data=head_injury, mapping=aes(x=head_injury$Event, y=head_injury$Injuries))+geom_bar(stat="identity")+xlab("Event")+ylab("Injuries")
 print(p1)
 ```
 ## Across the United States, which types of events have the greatest economic consequences?
@@ -74,31 +74,32 @@ getE <- function(char) {
 ## Damaged caused to property
 sub_data$dmg_prop <- sub_data$PROPDMG * 10**getE(sub_data$PROPDMGEXP)
 
-agg_mdg_prop <- aggregate(sub_data$dmg_prop,by=list(sub_data$EVTYPE), sum)
+agg_dmg_prop <- aggregate(sub_data$dmg_prop,by=list(sub_data$EVTYPE), sum)
 
-agg_dmg_prop_ord <- agg_mdg_prop[order(agg_mdg_prop$x, decreasing = T), ]
+agg_dmg_prop_ord <- agg_dmg_prop[order(agg_dmg_prop$x, decreasing = T), ]
 
-head_mdg_prop <- head(agg_dmg_prop_ord)
-names(head_mdg_prop) <- c("Event", "PropertyDamage")
-head_mdg_prop
+head_dmg_prop <- head(agg_dmg_prop_ord)
+names(head_dmg_prop) <- c("Event", "PropertyDamage")
+head_dmg_prop
 
-p1 <- ggplot(data=head_mdg_prop, mapping=aes(x=head_mdg_prop$Event, y=head_mdg_prop$PropertyDamage))+geom_bar(stat="identity")
+p1 <- ggplot(data=head_dmg_prop, mapping=aes(x=head_dmg_prop$Event, y=head_dmg_prop$PropertyDamage))+geom_bar(stat="identity")+xlab("Event")+ylab("Property Damage")
+print(p1)
 
 ## Damage caused to crop
 sub_data$dmg_crop <- sub_data$CROPDMG * 10**getE(sub_data$CROPDMGEXP)
 
-agg_mdg_crop <- aggregate(sub_data$dmg_crop,by=list(sub_data$EVTYPE), sum)
+agg_dmg_crop <- aggregate(sub_data$dmg_crop,by=list(sub_data$EVTYPE), sum)
 
-agg_dmg_crop_ord <- agg_mdg_crop[order(agg_mdg_crop$x, decreasing = T), ]
+agg_dmg_crop_ord <- agg_dmg_crop[order(agg_dmg_crop$x, decreasing = T), ]
 
-head_mdg_crop <- head(agg_dmg_crop_ord)
-names(head_mdg_crop) <- c("Event", "CropDamage")
-head_mdg_crop
+head_dmg_crop <- head(agg_dmg_crop_ord)
+names(head_dmg_crop) <- c("Event", "CropDamage")
+head_dmg_crop
 
-p1 <- ggplot(data=head_mdg_crop, mapping=aes(x=head_mdg_crop$Event, y=head_mdg_crop$CropDamage))+geom_bar(stat="identity")
-
+p1 <- ggplot(data=head_dmg_crop, mapping=aes(x=head_dmg_crop$Event, y=head_dmg_crop$CropDamage))+geom_bar(stat="identity")+xlab("Event")+ylab("Crop Damage")
+print(p1)
 ## Add data to calculate damage caused to Property and Crop
-sub_data$economyDMG <- dmg_prop + dmg_crop
+sub_data$economyDMG <- sub_data$dmg_prop + sub_data$dmg_crop
 
 agg_eco <- aggregate(sub_data$economyDMG,by=list(sub_data$EVTYPE), sum)
 ## order by damage
@@ -109,5 +110,6 @@ head_eco_ord <- head(agg_eco_ord)
 names(head_eco_ord) <- c("Event", "TotalEconomyDamage")
 head_eco_ord
 
-p1 <- ggplot(data=head_eco_ord, mapping=aes(x=head_eco_ord$Event, y=head_eco_ord$TotalEconomyDamage))+geom_bar(stat="identity")
+p1 <- ggplot(data=head_eco_ord, mapping=aes(x=head_eco_ord$Event, y=head_eco_ord$TotalEconomyDamage))+geom_bar(stat="identity")+xlab("Event")+ylab("Total Economy Damage")
+print(p1)
 ```
