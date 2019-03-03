@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Across the United States, which types of events (as indicated in the \color{red}{\verb|EVTYPE|}EVTYPE variable) are most harmful with respect to population health?
 
-### Reading the data
+### Data Processing
 
 
 ```{r, echo=TRUE}
@@ -32,6 +32,8 @@ sub_data$CROPDMGEXP <- as.character(sub_data$CROPDMGEXP)
 agg_fat <- aggregate(sub_data$FATALITIES,by=list(sub_data$EVTYPE), sum)
 agg_inj <- aggregate(sub_data$INJURIES,by=list(sub_data$EVTYPE), sum)
 ```
+## Results
+
 ### Most fatal events
 ```{r}
 ## order by fatalities
